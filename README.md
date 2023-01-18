@@ -19,3 +19,10 @@ This will create 4 mysql containers and the web api. Web api will run at port 77
 For learning purposes there are 3 tenants and requests should be made with tenant header.
 Example request:
 ![](example-request.png)
+
+Tenant IDs:
+<ul>
+  <li>tenant1</li>
+  <li>tenant2</li>
+  <li>tenant3</li>
+</ul>
