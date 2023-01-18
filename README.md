@@ -26,3 +26,7 @@ Tenant IDs:
   <li>tenant2</li>
   <li>tenant3</li>
 </ul>
+
+
+Checkout swagger page for endpoints:
+> http://localhost:7777/swagger/index.html
