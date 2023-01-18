@@ -1,0 +1,87 @@
+version: '3.7'
+
+services:
+  tenantdb:
+    container_name: tenantdb
+    image: mysql
+    environment:
+      MYSQL_DATABASE: tenantdb
+      MYSQL_ROOT_PASSWORD: tenant
+    ports:
+      - "3306:3306"
+    networks:
+      - myNetwork
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+  
+  tenant1db:
+    container_name: tenant1db
+    image: mysql
+    environment:
+      MYSQL_DATABASE: tenant1db
+      MYSQL_ROOT_PASSWORD: tenant1
+    ports:
+      - "3307:3306"
+    networks:
+      - myNetwork
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    
+  tenant2db:
+    container_name: tenant2db
+    image: mysql
+    environment:
+      MYSQL_DATABASE: tenant2db
+      MYSQL_ROOT_PASSWORD: tenant2
+    ports:
+      - "3308:3306"
+    networks:
+      - myNetwork
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+  
+  tenant3db:
+    container_name: tenant3db
+    image: mysql
+    environment:
+      MYSQL_DATABASE: tenant3db
+      MYSQL_ROOT_PASSWORD: tenant3
+    ports:
+      - "3309:3306"
+    networks:
+      - myNetwork
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+
+  databasepertenant.api:
+    container_name: databasepertenant.api
+    build: 
+      context: .
+      dockerfile: src/DatabasePerTenant/Dockerfile
+    ports:
+      - "7777:80"
+    depends_on:
+      tenantdb:
+        condition: service_healthy
+      tenant1db:
+        condition: service_healthy
+      tenant2db:
+        condition: service_healthy
+      tenant3db:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    networks:
+      - myNetwork
+  
+networks:
+  myNetwork:
